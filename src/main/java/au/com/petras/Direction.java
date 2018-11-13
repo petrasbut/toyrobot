@@ -1,8 +1,8 @@
 package au.com.petras;
 
 public enum Direction {
-    EAST(1),
     NORTH(0),
+    EAST(1),
     SOUTH(2),
     WEST(3);
 

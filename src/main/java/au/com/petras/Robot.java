@@ -1,49 +1,95 @@
 package au.com.petras;
 
-import static au.com.petras.Direction.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class Robot {
-    int col;
-    int row;
-    int directionIndex;
+    Position pos;
+    Direction direction;
+    List<Predicate<Position>> predicates = new ArrayList<>();
+    static Logger LOGGER;
 
-    private Direction[] cycle = {NORTH, EAST, SOUTH, WEST};
+    static {
+        LOGGER = LoggerFactory.getLogger(Robot.class);
+    }
 
-    public Robot(int col, int row, Direction direction) {
-        this.col = col;
-        this.row = row;
-        this.directionIndex = direction.index;
+    public Robot(Position pos, Direction direction, List<Predicate<Position>> robotPredicates) {
+        this.pos = pos;
+        this.direction = direction;
+        this.predicates = robotPredicates;
     }
 
     public void turnRight() {
-        directionIndex = ((directionIndex + 1) % 4);
+        direction = Direction.fromValue((direction.index + 1) % 4);
     }
 
     public void turnLeft() {
-        directionIndex = ((directionIndex - 1) % 4);
+        int directionIndex = ((direction.index - 1) % 4);
         if (directionIndex < 0) {
             directionIndex += 4;
         }
-        System.out.println(directionIndex);
-    }
-
-    public int getCol() {
-        return col;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
+        direction = Direction.fromValue(directionIndex);
     }
 
     public Direction getDirection() {
-        return Direction.fromValue(directionIndex);
+        return direction;
+    }
+
+    public void addPos(int x, int y) {
+        int newcol = this.pos.col + x;
+        int newrow = this.pos.row + y;
+        Position newPos = new Position(newrow, newcol);
+
+        for (Predicate<Position> predicate : predicates) {
+            boolean invalidPosition = predicate.test(newPos);
+            if (invalidPosition){
+                LOGGER.info("Robot predicate violation. No move");
+                return;
+            }
+        }
+
+        this.pos.col += x;
+        this.pos.row += y;
+    }
+
+    public void move() {
+        switch (direction) {
+            case NORTH:
+                addPos(0, 1);
+                break;
+            case EAST:
+                addPos(1, 0);
+                break;
+            case SOUTH:
+                addPos(0, -1);
+                break;
+            case WEST:
+                addPos(-1, 0);
+                break;
+        }
+    }
+
+    public void report() {
+        System.out.println(this.toString());
+    }
+
+    @Override
+    public String toString() {
+        return "Robot{" +
+                "position=" + pos +
+                ", direction=" + direction +
+                '}';
+    }
+
+    public int getCol() {
+        return this.pos.col;
+    }
+
+    public int getRow() {
+        return this.pos.row;
     }
 }
