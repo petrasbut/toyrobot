@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.NoSuchElementException;
 
 public class RobotGameConfig {
     static Logger LOGGER;
@@ -32,8 +33,8 @@ public class RobotGameConfig {
                 rows = config.getInt("table.size.x");
                 columns = config.getInt("table.size.y");
 
-            } catch (ConfigurationException e) {
-                LOGGER.error("Error while loading RobotGame configuration", e);
+            } catch (NoSuchElementException | ConfigurationException e) {
+                LOGGER.error("Error while loading RobotGame configuration. Defalut config loaded", e);
                 loadDefaultConfig();
             }
         }
