@@ -1,5 +1,7 @@
 package au.com.petras;
 
+import au.com.petras.robot.Position;
+import au.com.petras.robot.Robot;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static au.com.petras.Direction.*;
+import static au.com.petras.robot.Direction.*;
 import static org.junit.Assert.assertEquals;
 
 public class RobotTest {
@@ -24,7 +26,9 @@ public class RobotTest {
 
     @Test
     public void turnRight() {
-        Robot robot = new Robot(new Position(0, 0), NORTH, null);
+        Robot robot = new Robot(predicates);
+        robot.setPosition(new Position(0, 0), NORTH);
+
         assertEquals(NORTH, robot.getDirection());
 
         robot.turnRight();
@@ -45,7 +49,9 @@ public class RobotTest {
 
     @Test
     public void turnLeft() {
-        Robot robot = new Robot(new Position(0, 0), NORTH, null);
+        Robot robot = new Robot(predicates);
+        robot.setPosition(new Position(0, 0), NORTH);
+
         assertEquals(NORTH, robot.getDirection());
 
         robot.turnLeft();
@@ -65,91 +71,81 @@ public class RobotTest {
     }
 
     @Test
-    public void addPos() {
-
-        List<Predicate<Position>> predicates = new ArrayList<>();
-
-        Robot robot = new Robot(new Position(0, 0), NORTH, predicates);
-        assertEquals(0, robot.getCol());
-        assertEquals(0, robot.getRow());
-
-        robot.addPos(1, 1);
-        assertEquals(1, robot.getCol());
-        assertEquals(1, robot.getRow());
-
-        robot.addPos(2, 2);
-        assertEquals(3, robot.getCol());
-        assertEquals(3, robot.getRow());
-
-        robot.addPos(-1, -1);
-        assertEquals(2, robot.getCol());
-        assertEquals(2, robot.getRow());
-    }
-
-    @Test
     public void moveNorth() {
 
-        Robot robot = new Robot(new Position(0, 0), NORTH, predicates);
-        assertEquals(0, robot.getCol());
+        Robot robot = new Robot(predicates);
+        robot.setPosition(new Position(0, 0), NORTH);
+
         assertEquals(0, robot.getRow());
+        assertEquals(0, robot.getCol());
 
         robot.move();
-        assertEquals(0, robot.getCol());
-        assertEquals(1, robot.getRow());
+        assertEquals(0, robot.getRow());
+        assertEquals(1, robot.getCol());
     }
 
     @Test
     public void moveSouth() {
 
-        Robot robot = new Robot(new Position(0, 0), SOUTH, predicates);
-        assertEquals(0, robot.getCol());
-        assertEquals(0, robot.getRow());
+        Robot robot = new Robot(predicates);
+        robot.setPosition(new Position(1, 1), SOUTH);
+
+        assertEquals(1, robot.getRow());
+        assertEquals(1, robot.getCol());
 
         robot.move();
+        assertEquals(1, robot.getRow());
         assertEquals(0, robot.getCol());
-        assertEquals(-1, robot.getRow());
     }
 
     @Test
     public void moveEast() {
 
-        Robot robot = new Robot(new Position(1, 1), EAST, predicates);
-        assertEquals(1, robot.getCol());
+        Robot robot = new Robot(predicates);
+        robot.setPosition(new Position(1, 1), EAST);
+
         assertEquals(1, robot.getRow());
+        assertEquals(1, robot.getCol());
 
         robot.move();
-        assertEquals(1, robot.getCol());
         assertEquals(2, robot.getRow());
+        assertEquals(1, robot.getCol());
     }
 
     @Test
     public void moveWest() {
 
-        Robot robot = new Robot(new Position(1, 1), WEST, predicates);
-        assertEquals(1, robot.getCol());
+        Robot robot = new Robot(predicates);
+        robot.setPosition(new Position(1, 1), WEST);
+
         assertEquals(1, robot.getRow());
+        assertEquals(1, robot.getCol());
 
         robot.move();
-        assertEquals(0, robot.getCol());
-        assertEquals(1, robot.getRow());
+        assertEquals(0, robot.getRow());
+        assertEquals(1, robot.getCol());
     }
 
     @Test
     public void invalidMoveNorth() {
 
-        Robot robot = new Robot(new Position(5, 5), NORTH, predicates);
-        assertEquals(5, robot.getCol());
+        Robot robot = new Robot(predicates);
+        robot.setPosition(new Position(5, 5), NORTH);
+
         assertEquals(5, robot.getRow());
+        assertEquals(5, robot.getCol());
 
         robot.move();
-        assertEquals(5, robot.getCol());
         assertEquals(5, robot.getRow());
+        assertEquals(5, robot.getCol());
     }
 
     @Test
     public void report() {
-        Robot robot = new Robot(new Position(1, 1), WEST, predicates);
-        assertEquals(1, robot.getCol());
+        Robot robot = new Robot(predicates);
+        robot.setPosition(new Position(1, 1), WEST);
+
         assertEquals(1, robot.getRow());
+        assertEquals(1, robot.getCol());
     }
 }

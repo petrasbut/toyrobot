@@ -1,8 +1,8 @@
-package au.com.petras;
+package au.com.petras.robot;
 
-class Position {
-    int row;
-    int col;
+public class Position {
+    public int row;
+    public int col;
 
     public Position(int row, int col) {
         this.row = row;

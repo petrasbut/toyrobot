@@ -1,4 +1,4 @@
-package au.com.petras;
+package au.com.petras.robot;
 
 public enum Direction {
     NORTH(0),
@@ -6,7 +6,7 @@ public enum Direction {
     SOUTH(2),
     WEST(3);
 
-    int index;
+    public int index;
 
     Direction(int index) {
         this.index = index;
