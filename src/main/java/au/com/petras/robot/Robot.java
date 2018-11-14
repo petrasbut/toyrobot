@@ -108,7 +108,7 @@ public class Robot implements RobotInterface {
 
     @Override
     public String report() {
-        if (IsInPlace()) return null;
+        if (IsInPlace()) return "Robot not in PLACE";
         return this.toString();
     }
 

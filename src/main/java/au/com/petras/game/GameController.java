@@ -10,8 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-
 public class GameController implements RobotInterface {
 
     static Logger LOGGER;
@@ -80,19 +78,18 @@ public class GameController implements RobotInterface {
 
     private GameCmd parseCommand(String inputString) throws GameCmdException {
 
-        String[] rawCmd = StringUtils.split(inputString, ',');
+        String[] rawCmd = StringUtils.split(inputString);
 
         // cmd identification
-        boolean result = Arrays.asList(GameInput.values()).contains(rawCmd[0]);
-        if (!result) {
-            LOGGER.error("Invalid GAME ACTION {}", rawCmd[1]);
-            return null;
+        GameInput input = null;
+        try {
+            input = GameInput.valueOf(rawCmd[0]);
+        } catch (IllegalArgumentException e) {
+            throw new GameCmdException(e, rawCmd);
         }
 
-        GameInput input = GameInput.valueOf(rawCmd[1]);
-
         if (input.equals(GameInput.PLACE)) {
-            return parsePlaceCmd(rawCmd);
+            return parsePlaceCmd(StringUtils.split(rawCmd[1], ','));
         } else {
             return new GameCmd(input, null, null);
         }
@@ -102,9 +99,9 @@ public class GameController implements RobotInterface {
 
         try {
             int[] xy = new int[2];
-            xy[0] = Integer.valueOf(rawCmd[1]);
-            xy[1] = Integer.valueOf(rawCmd[2]);
-            Direction direction = Direction.valueOf(rawCmd[3].toUpperCase());
+            xy[0] = Integer.valueOf(rawCmd[0]);
+            xy[1] = Integer.valueOf(rawCmd[1]);
+            Direction direction = Direction.valueOf(rawCmd[2].toUpperCase());
 
             return new GameCmd(GameInput.PLACE, xy, direction);
 

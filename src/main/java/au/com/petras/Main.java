@@ -4,10 +4,11 @@ import au.com.petras.config.RobotGameConfig;
 import au.com.petras.game.GameController;
 import au.com.petras.game.exception.GameCmdException;
 import au.com.petras.robot.Robot;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Console;
+import java.util.Scanner;
 
 public class Main {
 
@@ -21,9 +22,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Console console = System.console();
+        Scanner scanner = new Scanner(System.in);
 
-        setupGameConfig(args[0]);
+        if (args.length > 0 && StringUtils.isNotBlank(args[0])) {
+            setupGameConfig(args[0]);
+        } else {
+            setupGameConfig(null);
+        }
 
         GameController gameController = new GameController(config.rows, config.columns);
 
@@ -32,19 +37,21 @@ public class Main {
         System.out.println("Enter a command, Valid commands are:");
         System.out.println("\'PLACE X,Y,NORTH|SOUTH|EAST|WEST\', MOVE, LEFT, RIGHT, REPORT or EXIT");
 
-        boolean isExit = true;
-        while (isExit) {
-            String inputString = console.readLine(": ").toUpperCase();
+        boolean isRunning = true;
+        while (isRunning) {
+            String inputString = scanner.nextLine().toUpperCase();
             if ("EXIT".equals(inputString)) {
-                isExit = false;
+                isRunning = false;
             } else {
                 try {
                     gameController.action(inputString);
                 } catch (GameCmdException e) {
                     LOGGER.error("Error while parsing Game Command", e);
+                    System.out.println("Error while parsing your input. Robot says: Goodbye");
                 }
             }
         }
+        System.out.println("Goodbye...");
     }
 
     private static void setupGameConfig(String configFilePath) {
