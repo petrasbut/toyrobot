@@ -10,6 +10,9 @@ public class GameCmdParser {
 
     public static GameCmd parseCommand(String inputString) throws GameCmdException {
 
+        if (StringUtils.isBlank(inputString))
+            throw new GameCmdException(inputString);
+
         String[] rawCmd = StringUtils.split(inputString);
 
         // cmd identification
@@ -27,7 +30,7 @@ public class GameCmdParser {
         }
     }
 
-    public static GameCmd parsePlaceCmd(String[] rawCmd) throws GameCmdException {
+    private static GameCmd parsePlaceCmd(String[] rawCmd) throws GameCmdException {
 
         try {
             int[] xy = new int[2];

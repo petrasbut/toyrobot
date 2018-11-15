@@ -40,6 +40,10 @@ public class Main {
         boolean isRunning = true;
         while (isRunning) {
             String inputString = scanner.nextLine().toUpperCase();
+
+            if (StringUtils.isBlank(inputString))
+                continue;
+
             if ("EXIT".equals(inputString)) {
                 isRunning = false;
             } else {
@@ -48,9 +52,11 @@ public class Main {
                 } catch (GameCmdException e) {
                     LOGGER.error("Error while parsing Game Command", e);
                     System.out.println("Error while parsing your input. Robot says: Goodbye");
+                    System.exit(1);
                 }
             }
         }
+
         System.out.println("Goodbye...");
     }
 

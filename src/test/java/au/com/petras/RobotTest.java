@@ -147,5 +147,14 @@ public class RobotTest {
 
         assertEquals(1, robot.getRow());
         assertEquals(1, robot.getCol());
+
+        assertEquals("Robot{position=Position{row=1, col=1}, direction=WEST}", robot.report());
+    }
+
+    @Test
+    public void reporNotInPlace() {
+        Robot robot = new Robot(predicates);
+
+        assertEquals("Robot not in PLACE", robot.report());
     }
 }

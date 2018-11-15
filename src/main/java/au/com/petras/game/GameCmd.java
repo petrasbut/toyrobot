@@ -4,9 +4,9 @@ import au.com.petras.robot.Direction;
 import au.com.petras.robot.Position;
 
 public class GameCmd {
-    GameInput input;
-    Position position;
-    Direction direction;
+    public GameInput input;
+    public Position position;
+    public Direction direction;
 
     public GameCmd(GameInput input, int[] args, Direction direction) {
         this.input = input;
