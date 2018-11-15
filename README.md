@@ -10,7 +10,7 @@ table.size.x = 5
 table.size.y = 5
 ```
 
-##Description
+## Description
 Description
 The application is a simulation of a toy robot moving on a square tabletop, of dimensions 5
 units x 5 units.
