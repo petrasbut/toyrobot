@@ -1,7 +1,7 @@
 # Toy Robot Simulator
 
 #How to run
-`gradle distip` will build an executable.
+`gradlew distip` will build an executable.
 
 You can pass a configuration file to the application to setup the board size.
 If no config is found the default `5x5` will be used.
