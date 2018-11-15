@@ -1,6 +1,6 @@
 # Toy Robot Simulator
 
-#How to run
+## How to run
 `gradlew distZip` will build an executable.
 
 You can pass a configuration file to the application to setup the board size.
