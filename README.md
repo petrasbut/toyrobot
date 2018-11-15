@@ -1,5 +1,15 @@
 # Toy Robot Simulator
 
+#How to run
+`gradle distip` will build an executable.
+
+You can pass a configuration file to the application to setup the board size.
+If no config is found the default `5x5` will be used.
+```
+table.size.x = 5
+table.size.y = 5
+```
+
 ##Description
 Description
 The application is a simulation of a toy robot moving on a square tabletop, of dimensions 5
